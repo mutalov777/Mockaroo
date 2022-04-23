@@ -1,4 +1,4 @@
-package uz.mutalov.mockaroo;
+package uz.mockaroo;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;

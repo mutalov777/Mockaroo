@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragment.html :: header('Login Page')"></head>
+<body class="myb">
+<section th:include="fragment.html :: navbar"></section>
+
+
+<div class="container">
+    <div class="row header">
+        <div class="col-6 offset-3">
+            <form class="row g-3 " method="get" th:action="@{/data}" id="myForm">
+
+               <div class="qwerty d-flex">
+
+                   <table id="myTable">
+                       <tr>
+                           <td><h3>Field Name</h3></td>
+                           <td> <h3 >Type</h3></td>
+                       </tr>
+                       <tr>
+                           <td><label>
+                               <input type="text" class="form-control-plaintext border "  placeholder="id" name="name">
+                           </label></td>
+                           <td><label>
+                               <input class="form-control" list="datalistOptions" placeholder="Type to search..." name="type">
+                           </label>
+                               <datalist id="datalistOptions" >
+                                   <option th:each="project,iter : ${fakerTypes}" th:value="${project.name}">
+                               </datalist></td>
+                       </tr>
+                   </table>
+               </div>
+
+                <div class="col-auto mt-5">
+                   <table>
+                    <tr>
+                        <td><label>
+                            <input type="number" id="count" class="form-control-plaintext border "  placeholder="1000" name="count">
+                        </label></td>
+                        <td><label>
+                            <input class="form-control" id="format" list="formatList"  placeholder="Format">
+                        </label>
+                            <datalist id="formatList">
+                                <option th:action="@{/format}" th:each="format,iter : ${formats}" th:value="${format.name}" name="format">
+                            </datalist></td>
+                    </tr>
+                   </table>
+                   <button type="button" class="btn btn-primary mb-3" onclick="myFunction()">Add another Field</button>
+                    <button type="submit" class="btn btn-success mb-3" onclick="createFormData()">Download Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<section th:include="fragment.html :: js-files"></section>
+
+<script>
+    function myFunction() {
+        var table = document.getElementById("myTable");
+        var row = table.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = "<input type=\"text\" class=\"form-control-plaintext border \"  placeholder=\"id\" name=\"name\"'>";
+        cell2.innerHTML = "<input class=\"form-control\" list=\"datalistOptions\" id=\"exampleDataList\" placeholder=\"Type to search...\" name=\"type\">\n" +
+            "                               <datalist id=\"datalistOptions\" >\n" +
+            "                                   <option th:each=\"project,iter : ${fakerTypes}\" th:value=\"${project.name}\">\n" +
+            "                               </datalist>";
+
+
+    }
+
+
+    function createFormData() {
+        var form=document.getElementById('myForm');
+        let fields=[]
+        let fieldList=form.elements.map(item => item.value);
+        for (let i = 0; i <fieldList.length-2; i+=2)
+                fields.push({
+                    name:fieldList[i],
+                    type:fields[i+1]
+                })
+        axios.get('/data',{
+            fields,
+            count:document.getElementById('count'),
+            format:document.getElementById('format')
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,10 +1,11 @@
-package uz.jl.mackaroo.mock.dto;
+package uz.mockaroo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springdoc.api.annotations.ParameterObject;
+import uz.mockaroo.enums.FakerType;
 
 @Setter
 @Getter
@@ -12,16 +13,10 @@ import org.springdoc.api.annotations.ParameterObject;
 @AllArgsConstructor
 public class Field {
     private String name;
-    private TYPE type;
+    private FakerType type;
     private Integer size;
     private Integer min;
-    private Integer max;
+    private  Integer max;
 
-    public enum TYPE {
-        FULLNAME,
-        FIRST_NAME,
-        LAST_NAME,
-        USERNAME
-    }
 }
 
